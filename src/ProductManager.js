@@ -21,7 +21,7 @@ class ProductsManager{
                        status: status,
                        stock: stock,
                        category: category,
-                       thumbnail: thumbnail
+                       thumbnail: thumbnail=[]
                     }
                 let newId;
                 db.length == 0?

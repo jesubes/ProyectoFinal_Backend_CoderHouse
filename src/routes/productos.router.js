@@ -1,4 +1,4 @@
-import { Router } from "express";
+import { response, Router } from "express";
 const ProductsManager = require('../ProductManager')
 
 const router = Router();
@@ -8,8 +8,17 @@ const productsM = new ProductsManager('../productos.json');
 
 
 router.get('/', async (request, response) =>{
+    const { limit } = request.query;
     const db = await productsM.getProducts();
-    response.send(db);
+
+    if(!limit) {
+        response.send(db);
+    }else {
+        for(i=0; i <= limit; i++){
+            response.send(db[i]);
+        }
+    }
+    
 
 })
 
