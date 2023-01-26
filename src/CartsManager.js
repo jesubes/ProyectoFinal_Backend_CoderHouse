@@ -1,4 +1,4 @@
-const fs = require ('fs');
+import {fs} from 'fs'
 
 class CartsManager{
     constructor(carts= [], id=0, path= './carrito.json'){

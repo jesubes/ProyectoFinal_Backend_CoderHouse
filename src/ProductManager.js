@@ -1,4 +1,4 @@
-const fs = require ('fs');
+import {fs} from 'fs'
 
 class ProductsManager{
     constructor( products= [], id=0, path = './productos.json'){
@@ -79,4 +79,5 @@ class ProductsManager{
 }
 
 
-module.exports = ProductsManager;
+module.export = ProductsManager;
+// export default ProductsManager;

@@ -1,5 +1,6 @@
-import { response, Router } from "express";
-const ProductsManager = require('../ProductManager')
+import { Router } from "express";
+// const ProductsManager = require('../ProductManager')
+import ProductsManager from '../ProductManager';
 
 const router = Router();
 
