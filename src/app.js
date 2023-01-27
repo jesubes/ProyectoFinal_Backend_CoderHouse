@@ -1,4 +1,4 @@
-import { express } from 'express';
+import express from 'express';
 
 
 import productsRouter from './routes/productos.router.js';

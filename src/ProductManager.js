@@ -1,6 +1,6 @@
-import {fs} from 'fs'
+import fs from 'fs'
 
-class ProductsManager{
+export default class ProductsManager{
     constructor( products= [], id=0, path = './productos.json'){
         this.products = products;
         this.id = id;
@@ -79,4 +79,4 @@ class ProductsManager{
 }
 
 
-export default ProductsManager;
+// export default ProductsManager;
