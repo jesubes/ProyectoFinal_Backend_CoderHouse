@@ -70,4 +70,5 @@ class CartsManager{
 }
 
 
-module.exports = CartsManager;
+
+export default CartsManager;
