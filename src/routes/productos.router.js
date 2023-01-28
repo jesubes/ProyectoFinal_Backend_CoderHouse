@@ -24,7 +24,7 @@ router.get('/', async (request, response) =>{
 
 
 router.get('/:pid', async (request, response) =>{
-    id = request.params.pid;
+    let id = request.params.pid;
     const product = await productsM.getProductById(id);
     response.send(product);
 })
@@ -53,7 +53,7 @@ router.put('/:pid', async (request, response) => {
 
 
 router.delete('/:pid', async (request, response) => {
-    id = request.params.pid;
+    let id = request.params.pid;
     let productDelete = await productsM.deleteProduct(id);
     response.send({ status: "success", message: `El Articulo ID: ${productDelete}, esta ELIMINADO` })
 

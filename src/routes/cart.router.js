@@ -12,7 +12,7 @@ const productsM = new ProductsManager('../productos.json');
 
 
 router.get('/:cid', async (request, response) =>{
-    cid = request.params.cid;
+    let cid = request.params.cid;
     const cart = await CartsM.getCartsById(cid);  // se crea un array de carritos de compras
     response.send(cart)
 })
@@ -26,8 +26,8 @@ router.post('/', async(request, response) =>{
 
 
 router.post('/:cid/product/:pid', async(request, response) =>{
-    cartId = request.params.cid;
-    productId = request.params.pid;
+    let cartId = request.params.cid;
+    let productId = request.params.pid;
     let {id} = await productsM.getProductById(productId); // confimar si el producto esta en el archivo ./productos.json
     let idCart = await CartsM.addProductToCart(cartId,id);
     response.send(`Producto con ID -> ${productId}, Agregado al Carrito ID: ${idCart}`);

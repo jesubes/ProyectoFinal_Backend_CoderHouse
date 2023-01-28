@@ -1,7 +1,7 @@
 import fs from 'fs'
 
 class CartsManager{
-    constructor(carts= [], id=0, path= './carrito.json', quantity){
+    constructor(path= './carrito.json', carts= [], id=0, quantity){
         this.carts = carts
         this.id = id;
         this.quantity = quantity;

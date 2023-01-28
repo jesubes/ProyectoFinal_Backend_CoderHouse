@@ -1,7 +1,7 @@
 import fs from 'fs'
 
 export default class ProductsManager{
-    constructor( products= [], id=0, path = './productos.json'){
+    constructor(path = './productos.json', products= [], id=0){
         this.products = products;
         this.id = id;
         this.path = path;
