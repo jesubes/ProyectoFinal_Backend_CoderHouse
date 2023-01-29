@@ -1,39 +1,41 @@
 import fs from 'fs'
 
 class CartsManager{
-    constructor(path= './carrito.json', carts= [], id=0, quantity){
-        this.carts = carts
-        this.id = id;
-        this.quantity = quantity;
+    constructor(path){
+        this.carts;
+        this.quantity;
         this.path = path;
     }
 
     async addCart(idProduct){
         const dbCarts = await this.getCarts();
+
         try{
-            if(this.quantity){
+            if(true){
                 let cart = {   //---------->> REVISAR
-                    idProduct: idProduct,
-                    quantity: quantity
+                    idProduct: idProduct
                 }
-                let newId;
+                let newIdCart;
                 dbCarts.length == 0 ?
-                    newId =1 :
-                    newId = db[dbCarts.length-1].id +1;
-                const newCart = {...cart, id: newId};
+                    newIdCart =1 :
+                    newIdCart = dbCarts[dbCarts.length-1].id +1;
+                const newCart = {...cart, id: newIdCart};
+                console.log(newCart)
                 dbCarts.push(newCart)
-                await fs.promises.writeFile('./carrito.json', JSON.stringify(dbCarts));
+                await fs.promises.writeFile(this.path, JSON.stringify(dbCarts));
+                console.log('new Cart',newCart.id)
+                return newCart.id;
             }
         }
         catch (err){
             console.log(err.message);
         }
-        return newCart.id;
+
     }
 
     async getCarts(){
-        if(fs.existsSync('./carrito.json')){
-            let listado = await fs.promises.readFile('./carrito.json','utf-8');
+        if(fs.existsSync(this.path)){
+            let listado = await fs.promises.readFile(this.path,'utf-8');
             let listadoObj = JSON.parse(listado);
             this.carts = listadoObj;
             return this.carts;

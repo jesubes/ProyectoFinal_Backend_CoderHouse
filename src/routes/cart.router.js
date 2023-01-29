@@ -7,20 +7,20 @@ import ProductsManager from '../ProductManager.js'
 
 
 const router = Router();
-const CartsM = new CartsManager('../carrito.json');
-const productsM = new ProductsManager('../productos.json');
+const CartsM = new CartsManager('./src/carrito.json');
+const productsM = new ProductsManager('./src/productos.json');
 
 
 router.get('/:cid', async (request, response) =>{
     let cid = request.params.cid;
-    const cart = await CartsM.getCartsById(cid);  // se crea un array de carritos de compras
+    const cart = await CartsM.getCartsById(cid);  // 
     response.send(cart)
 })
 
 
 router.post('/', async(request, response) =>{
-    let produtsCart = request.body;
-    let idCart = await CartsM.addCart(produtsCart); // se crea una funcion para crear carritos con los id de los productos pasados por parametros
+    const productsCart = request.body;
+    let idCart = await CartsM.addCart(productsCart); // se crea una funcion para crear carritos con los id de los productos pasados por parametros
     response.send(`Agregado al Carrito ID --->`, idCart)
 })
 
