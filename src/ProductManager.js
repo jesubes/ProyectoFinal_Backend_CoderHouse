@@ -1,18 +1,18 @@
 import fs from 'fs'
-
-export default class ProductsManager{
-    constructor(path = './productos.json', products= [], id=0){
-        this.products = products;
-        this.id = id;
+ class ProductsManager{
+    constructor(path){ 
+        this.products;
+        this.id;
         this.path = path;
     }
 
 
     async addProduct(title, description, code, price, status, stock, category, thumbnail){
+       
         const db = await this.getProducts();
-        
+       
         try{
-            if(title && description && description && thumbnail && code && stock) {
+            if(title && description && price && thumbnail && code && stock) {
                 let product = { 
                        title: title,
                        description: description,
@@ -29,8 +29,9 @@ export default class ProductsManager{
                     newId = db[db.length-1].id + 1;
                 const newProduct = { ...product, id: newId};
                 db.push(newProduct);
-                await fs.promises.writeFile('./productos.json',JSON.stringify(db));
+                await fs.promises.writeFile(this.path,JSON.stringify(db));
                 }
+                else console.log('Ingresar todas las caracteristicas del producto')
         }
     
         catch(err) {
@@ -40,12 +41,12 @@ export default class ProductsManager{
 
 
     async getProducts() {
-        if (fs.existsSync('./productos.json')) {
-            let listado = await fs.promises.readFile('./productos.json', 'utf-8');
+        if (fs.existsSync(this.path)) {
+            let listado = await fs.promises.readFile(this.path, 'utf-8');
             let listadoObj = JSON.parse(listado);
             this.products = listadoObj;
             return this.products;
-        }
+        }else console.log(`Archivo no encontrado en ${this.path}`)
     }
 
 
@@ -64,19 +65,19 @@ export default class ProductsManager{
             let indexProduct = db.findIndex((product) => product.id == id)
             db[indexProduct] = { ...newProduct, id };
         }
-        await fs.promises.writeFile('./productos.json', JSON.stringify(db))
+        await fs.promises.writeFile(this.path, JSON.stringify(db))
     }
 
 
     async deleteProduct(id){
-        let listado = await fs.promises.readFile('./productos.json', 'utf-8');
+        let listado = await fs.promises.readFile(this.path, 'utf-8');
         let listadoObj = JSON.parse(listado);
         const resultado = listadoObj.filter(lista => lista.id !== parseInt(id));
-        await fs.promises.writeFile('./productos.json', JSON.stringify(resultado))
+        await fs.promises.writeFile(this.path, JSON.stringify(resultado))
         return id;
         
     }
 }
 
 
-// export default ProductsManager;
+export default ProductsManager;
