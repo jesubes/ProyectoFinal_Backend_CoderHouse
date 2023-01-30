@@ -12,18 +12,13 @@ class CartsManager{
 
         try{
             if(true){
-                let cart = {   //---------->> REVISAR
-                    idProduct: idProduct
-                }
                 let newIdCart;
                 dbCarts.length == 0 ?
                     newIdCart =1 :
                     newIdCart = dbCarts[dbCarts.length-1].id +1;
-                const newCart = {...cart, id: newIdCart};
-                console.log(newCart)
+                const newCart = {...idProduct, id: newIdCart};
                 dbCarts.push(newCart)
                 await fs.promises.writeFile(this.path, JSON.stringify(dbCarts));
-                console.log('new Cart',newCart.id)
                 return newCart.id;
             }
         }
@@ -46,27 +41,37 @@ class CartsManager{
         const dbCarts = await this.getCarts();
         const cartFind = dbCarts.find((cart) => cart.id == cid);
         if (cartFind){
+           
             return cartFind;
+
         }else console.log("No existe ID del carrito Solicitado")
     }
 
     async addProductToCart(cartId, productId){
         let dbCarts = await this.getCarts();
-        const cartFind = dbCarts.find((cart) => cart.id == cartId)
-        if(cartFind.some((producto) => producto.idProduct == productId)){
-            let actualizarCantidad = cartFind.find((producto) => producto.idProduct == productId);
-            actualizarCantidad.quantity = actualizarCantidad.quantity + 1;
-            let indexProducto = cartFind.findIndex((producto) => producto.idProduct == productId)
-            cartFind[indexProducto] = { ...actualizarCantidad, }
-        }else {
-            let newProduct = { idProduct:productId, qunatity: 1}
-            cartFind.push(newProduct);
-        }
+        const {products} = dbCarts.find((cart) => cart.id == cartId)
+        console.log('products tamaño --->', artArr.length )
+        console.log('productId -->', productId)
 
-        let indexCart = dbCarts.findIndex((cart) => cart.id == cartId);
-        dbCarts[indexCart] = { ...cartFind};
+        // if(products.some((producto) => producto.pid == productId)){
+        //     console.log('ENCONTRADO....')
+        //     let actualizarCantidad = cartFind.find((producto) => producto.idProduct == productId);
+        //     actualizarCantidad.quantity = actualizarCantidad.quantity + 1;
+        //     let indexProducto = cartFind.findIndex((producto) => producto.idProduct == productId)
+        //     cartFind[indexProducto] = { ...actualizarCantidad, }
+        // }else {
+        //     console.log('NUEVO ARTICULO AL CARRRITO')
+        //     let newProduct = { pid: productId, qunatity: 1}
+        //     products.push(newProduct);
+        //     console.log('productos del carrito actulizado', products)
+        // }
 
-        await fs.promises.writeFile('./carrito.json', JSON.stringify(dbCarts));
+        // let indexCart = dbCarts.findIndex((cart) => cart.id == cartId);
+        // dbCarts[indexCart] = { ...products, id : cartId};
+
+        // await fs.promises.writeFile(this.path, JSON.stringify(dbCarts));
+
+        // return dbCarts[indexCart].id
         
     }
 }

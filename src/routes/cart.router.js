@@ -21,16 +21,18 @@ router.get('/:cid', async (request, response) =>{
 router.post('/', async(request, response) =>{
     const productsCart = request.body;
     let idCart = await CartsM.addCart(productsCart); // se crea una funcion para crear carritos con los id de los productos pasados por parametros
-    response.send(`Agregado al Carrito ID --->`, idCart)
+    response.status(202).send({status: "success", message: `Carrito agregado ID --> ${idCart}`})
 })
 
 
-router.post('/:cid/product/:pid', async(request, response) =>{
-    let cartId = request.params.cid;
+router.post('/:cid/products/:pid', async(request, response) =>{
+    let cartId = parseInt(request.params.cid);
     let productId = request.params.pid;
     let {id} = await productsM.getProductById(productId); // confimar si el producto esta en el archivo ./productos.json
+    console.log(cartId, id)
     let idCart = await CartsM.addProductToCart(cartId,id);
-    response.send(`Producto con ID -> ${productId}, Agregado al Carrito ID: ${idCart}`);
+    
+    response.status(202).send({status: "success", message: `Producto con ID -> ${productId}, Agregado al Carrito ID: ${idCart}`});
 })
 
 
