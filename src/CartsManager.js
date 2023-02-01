@@ -1,5 +1,4 @@
 import fs from 'fs'
-
 class CartsManager{
     constructor(path){
         this.carts;
@@ -50,28 +49,26 @@ class CartsManager{
     async addProductToCart(cartId, productId){
         let dbCarts = await this.getCarts();
         const {products} = dbCarts.find((cart) => cart.id == cartId)
-        console.log('products tamaño --->', artArr.length )
-        console.log('productId -->', productId)
 
-        // if(products.some((producto) => producto.pid == productId)){
-        //     console.log('ENCONTRADO....')
-        //     let actualizarCantidad = cartFind.find((producto) => producto.idProduct == productId);
-        //     actualizarCantidad.quantity = actualizarCantidad.quantity + 1;
-        //     let indexProducto = cartFind.findIndex((producto) => producto.idProduct == productId)
-        //     cartFind[indexProducto] = { ...actualizarCantidad, }
-        // }else {
-        //     console.log('NUEVO ARTICULO AL CARRRITO')
-        //     let newProduct = { pid: productId, qunatity: 1}
-        //     products.push(newProduct);
-        //     console.log('productos del carrito actulizado', products)
-        // }
+        if(products.some((producto) => producto.pid == productId)){
 
-        // let indexCart = dbCarts.findIndex((cart) => cart.id == cartId);
-        // dbCarts[indexCart] = { ...products, id : cartId};
+            let indexProducto = products.findIndex((producto) => producto.pid == productId)
+            products[indexProducto].quantity += 1;
 
-        // await fs.promises.writeFile(this.path, JSON.stringify(dbCarts));
+        }else {
 
-        // return dbCarts[indexCart].id
+            let newProduct = { pid: productId, quantity: 1}
+            products.push(newProduct);
+            
+        }
+
+        let indexCart = dbCarts.findIndex((cart) => cart.id == cartId);
+        dbCarts[indexCart] = { products, id : cartId};
+        console.log(dbCarts)
+
+        await fs.promises.writeFile(this.path, JSON.stringify(dbCarts));
+
+        return dbCarts[indexCart].id
         
     }
 }

@@ -29,7 +29,7 @@ router.post('/:cid/products/:pid', async(request, response) =>{
     let cartId = parseInt(request.params.cid);
     let productId = request.params.pid;
     let {id} = await productsM.getProductById(productId); // confimar si el producto esta en el archivo ./productos.json
-    console.log(cartId, id)
+
     let idCart = await CartsM.addProductToCart(cartId,id);
     
     response.status(202).send({status: "success", message: `Producto con ID -> ${productId}, Agregado al Carrito ID: ${idCart}`});
