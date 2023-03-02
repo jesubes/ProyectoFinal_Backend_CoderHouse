@@ -1,8 +1,6 @@
 
 import { Router } from 'express';
-
 import CartsManager from '../CartsManager.js';
-
 import ProductsManager from '../ProductManager.js'
 
 

@@ -2,7 +2,6 @@ import { Router } from 'express';
 import ProductsManager from '../ProductManager.js';
 
 const router = Router();
-
 const productsM = new ProductsManager('./src/productos.json');
 
 
@@ -59,8 +58,6 @@ router.delete('/:pid', async (request, response) => {
     response.send({ status: "success", message: `El Articulo ID: ${productDelete}, esta ELIMINADO` })
 
 })
-
-
 
 
 export default router;
