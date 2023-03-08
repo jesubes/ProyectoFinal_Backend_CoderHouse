@@ -13,9 +13,7 @@ router.get('/', async (req, res) => {
 })
 
 router.get('/realtimeproducts', async (req, res) => {
-    
-    const dbProducts = await productsM.getProducts()
-    
+
     res.render('realtimeProducts')
 })
 
