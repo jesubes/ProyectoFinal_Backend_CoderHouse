@@ -1,0 +1,25 @@
+<div>
+  <h2>Listado de Carritos de Compra</h2>
+</div>
+
+<table>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Title</th>
+      <th>Description</th>
+      <th>Price</th>
+      <th>Category</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each carts}}
+      <tr>
+        <td>{{id}}</td>
+        <td>{{products}}</td>
+        <td>{{pid}}</td>
+        <td>{{quantity}}</td>
+      </tr>
+    {{/each}}
+  </tbody>
+</table>

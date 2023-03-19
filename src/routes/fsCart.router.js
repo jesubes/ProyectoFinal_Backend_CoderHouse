@@ -17,7 +17,7 @@ router.get('/:cid', async (request, response) =>{
 
 
 router.post('/', async(request, response) =>{
-    const productsCart = request.body;
+    const productsCart = request.body; // solo se captura el id del producto a agregar en el carrito
     let idCart = await CartsM.addCart(productsCart); // se crea una funcion para crear carritos con los id de los productos pasados por parametros
     response.status(202).send({status: "success", message: `Carrito agregado ID --> ${idCart}`})
 })
