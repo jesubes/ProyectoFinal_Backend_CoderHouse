@@ -1,3 +1,6 @@
 /node_modules
 /apuntes.txt
 /.vscode
+/carrito.json
+/productos.json
+/src/.env

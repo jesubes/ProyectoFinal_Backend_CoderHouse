@@ -1,21 +1,27 @@
-import { Router } from "express";
-import CartsManager from "../Dao/dbManagers/Cart.Manager.js";
+import {Router} from "express";
+import * as cartsController from "../controller/carts.controller.js";
+import {auth} from "../middlewares/auth.js";
 
 const router = Router();
-const cartsM = new CartsManager();
 
-router.get("/", async (request) => {
-  let carts = await cartsM.getAll();
-  response.send({ status: "success", payload: carts });
-});
+router.get("/", cartsController.getAll);
 
-router.post("/", async (request, response) => {
-  const { products, id } = request.body;
+router.get("/:cid", cartsController.getById);
 
-  let productToCar = { products, id };
-  let result = await cartsM.saveCart(productToCar);
+router.post("/", cartsController.post);
 
-  response.send({ status: "success", payload: result });
-});
+router.post("/:cid/products/:pid", cartsController.postProductToCart);
 
-export default router
+router.post("/:cid/purchase", cartsController.purchase);
+
+router.put("/:cid/products", cartsController.putProducts);
+
+router.put("/:cid/products/:pid", cartsController.putProductQuantity);
+
+router.delete("/:cid/products/:pid", cartsController.deleteProductToCart);
+
+router.delete("/:cid/products", cartsController.deleteProducts);
+
+router.delete("/:cid", cartsController.deleteById);
+
+export default router;

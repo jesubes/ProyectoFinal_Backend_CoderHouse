@@ -1,0 +1,21 @@
+<div class="cartTitlePage">
+  <h1>Cart</h1>
+</div>
+
+<div class="cartProductsContainer">
+  {{#each cart.payload}}
+    <div class="cartProduct">
+      <div class="cartSection">
+        <img class="cartProductImg" src="{{thumbnails}}" alt="{{title}}" />
+        <h2 class="cartProductTitle">Name: {{title}}</h2>
+      </div>
+      <div class="cartSection">
+        <h2 class="cartProductPrice">Price: ${{price}}</h2>
+        <h2 class="cartProductQuantity">Quantity: {{quantity}}</h2>
+      </div>
+    </div>
+  {{/each}}
+
+  <button class="buyButton" onclick="buyToCart( '{{this.id}}', '{{uid}}}', '{{email}}')">Comprar</button>
+
+</div>

@@ -1,54 +1,73 @@
-import express  from "express";
-import __dirname from "./ultis.js"
-import handlebars from "express-handlebars" 
-import mongoose from "mongoose";
+import express from "express";
+import {Server} from "socket.io";
+import handlebars from "express-handlebars";
+import __dirname from "./utils.js";
+import cookieParser from "cookie-parser";
+import indexRouter from "./routes/index.router.js";
+import messageModel from "./dao/models/messages.model.js";
+import passport from "passport";
+import initPassport from "./config/passportConfig.js";
+import config from "./config/config.js";
+import handleError from "./middlewares/handleError.js";
+import {addLogger} from "./logger/logger.js";
+import swaggerJSDoc from "swagger-jsdoc";
+import swaggerUi from "swagger-ui-express";
 
-import productsRouter from "./routes/productos.router.js"
-import cartsRouter from "./routes/carts.router.js"
-import viewRouter from "./routes/view.router.js"
+const app = express();
 
-import {Server} from "socket.io"
+const httpServer = app.listen(config.port, () =>
+  console.log("App listen on port", config.port)
+);
 
-const app = express()
+const io = new Server(httpServer);
 
-//middlewares
-app.use(express.json()) //middleware que permite recibir formato tipo json
-app.use(express.urlencoded({extended: true}))
+const swaggerOption = {
+  definition: {
+    openapi: "3.0.1",
+    info: {
+      title: "API Documentation",
+      description: "Apis que contiene el proyecto",
+    },
+  },
+  apis: ["./src/docs/**.yaml"],
+};
 
-const PORT = 8080
+const specs = swaggerJSDoc(swaggerOption);
 
-//conection mongodb
-const connection = mongoose.connect('mongodb+srv://jesus:873089@cluster0.qxkrs16.mongodb.net/?retryWrites=true&w=majority')
+app.engine("handlebars", handlebars.engine());
 
-//indicamos que motor de plantilla vamos a utilizar (en vez de servir archivos .html cambio por .handlebars)
-app.engine('handlebars', handlebars.engine())
-app.set('views', __dirname + '/views')
-app.set('view engine', 'handlebars')
+app.set("views", __dirname + "/views");
+app.set("view engine", "handlebars");
 
-//utilizamos los endpoint sobre el archivo app.js
-app.use('/', viewRouter)
+app.use(cookieParser());
+app.use(express.json({limit: "25mb"}));
+app.use(express.urlencoded({extended: true, limit: "25mb"}));
+app.use(express.static(__dirname + "/public"));
+app.use(addLogger);
+app.use("/apidocs", swaggerUi.serve, swaggerUi.setup(specs));
 
-app.use('/api/produts', productsRouter)
-app.use('/api/carts', cartsRouter)
+initPassport();
+app.use(passport.initialize());
 
-//static files --> se hace la configuracion de los archivos de la carpeta public
-app.use(express.static(__dirname + "/public"))
+app.use("/", indexRouter);
 
-//parametros sobre el puerto --> http://localhost:8080
-const httpServer = app.listen(PORT, () => {
-  console.log(`Escuchando en el PORT ---> ${ PORT }`)
-})
+app.use(handleError);
 
-const socketServer = new Server( httpServer )
+io.on("connection", async (socket) => {
+  console.log("New client connected");
 
-
-//conection webSocket
-socketServer.on('connetion', async (socket) => {
-  console.log('Nuevo cliente conectado')
-  socket.on('cliente: message', data => {
-    console.log(data)
-  })
-
-  const db = await productos.getAll()  //!!! atencion que no es lo esperado solo modo prueba
-  socket.emit('cliente:ecuchaDB', db )
-})
+  const logs = await messageModel.find();
+  io.emit("log", {logs});
+  socket.on("message", async (data) => {
+    await messageModel.create({
+      user: data.user,
+      message: data.message,
+      time: data.time,
+    });
+    const logs = await messageModel.find();
+    io.emit("log", {logs});
+  });
+  socket.on("userAuth", (data) => {
+    socket.broadcast.emit("newUser", data);
+  });
+});

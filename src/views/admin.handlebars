@@ -1,0 +1,22 @@
+  <main>
+
+    <section class="productsTitlePage">
+      <h1>Todos Los Usuarios</h1>
+    </section>
+    <section class="productsContainer">
+      <ul>
+      {{#each payload}}
+        <li class="usersList" >
+          <h5 >Nombre: {{this.firstName}}</h5>
+          <h5 >Apellido: {{this.lastName}}</h5>
+          <h5 >Role: {{this.role}}</h5>
+          <section >
+            <button  onclick="deleteUser( '{{this._id}}' )">Eliminar Usuario</button>
+            <button  onclick="updateRole('{{this._id}}')">Cambiar Rol</button>
+          </section>
+
+        </li>
+      {{/each}}
+      </ul>
+    </section>
+  </main>
