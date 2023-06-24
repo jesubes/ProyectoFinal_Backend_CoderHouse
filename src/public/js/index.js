@@ -29,7 +29,7 @@ async function addToCart( id , cartId ) {
     },
   };
   await fetch(
-    `http://localhost:${process.env.PORT}}/api/carts/${cartId}/products/${id}`,
+    `${process.env.ENVIORMENT}/carts/${cartId}/products/${id}`,
     options
   );
   Swal.fire({
