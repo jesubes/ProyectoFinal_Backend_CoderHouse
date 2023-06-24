@@ -29,7 +29,7 @@ async function addToCart( id , cartId ) {
     },
   };
   await fetch(
-    `${process.env.ENVIORMENT}/carts/${cartId}/products/${id}`,
+    `https://proyectofinalbackendcoderhouse-production-3d03.up.railway.app/carts/${cartId}/products/${id}`,
     options
   );
   Swal.fire({
