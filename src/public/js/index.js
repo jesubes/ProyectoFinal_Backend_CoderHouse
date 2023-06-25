@@ -20,7 +20,7 @@ async function logout() {
 
 
 
-async function addToCart( id , cartId) {
+async function addToCart( id , cartId, url) {
 
   const options = {
     method: "POST",
@@ -30,7 +30,7 @@ async function addToCart( id , cartId) {
     },
   };
   await fetch(
-    `${ENVIORMENT}/api/carts/${cartId}/products/${id}`,
+    `${url}/api/carts/${cartId}/products/${id}`,
     options
   );
   Swal.fire({
