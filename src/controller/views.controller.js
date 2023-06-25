@@ -32,7 +32,6 @@ export const products = async (req, res, next) => {
     const token = req.cookies["coderCookieToken"]
     const isLogin = token ? true : false;
     const { ...user } = jwt.verify( token, config.cookieSecret )
-  
     const {query, limit, page, sort} = req.query;
     const response = await ProductsService.getAll(query, limit, page, sort);
     let {
@@ -46,17 +45,18 @@ export const products = async (req, res, next) => {
 
     payload.forEach((element) => {
       element.user = user;
+      element.urlFront = process.env.ENVIORMENT
     });
 
     if (hasNextPage)
-      nextLink = `http://localhost:8080/products/?${
+      nextLink = `${process.env.ENVIORMENT}/products/?${
         query ? "query=" + query + "&" : ""
       }${"limit=" + limit}${"&page=" + (+resPage + 1)}${
         sort ? "&sort=" + sort : ""
       }`;
 
     if (hasPrevPage)
-      prevLink = `http://localhost:8080/products/?${
+      prevLink = `${process.env.ENVIORMENT}/products/?${
         query ? "query=" + query + "&" : ""
       }${"limit=" + limit}${"&page=" + (+resPage - 1)}${
         sort ? "&sort=" + sort : ""
