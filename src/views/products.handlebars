@@ -15,7 +15,7 @@
           <h3 class="productTitle">{{this.title}}</h3>
           <section class="cardSection">
             <h3 class="productPrice">${{this.price}}</h3>
-            <button class="productButton" onclick="addToCart( '{{this.id}}', '{{this.user.cartId}}')">Add to cart 🛒</button>
+            <button class="productButton" onclick="addToCart( '{{this.id}}', '{{this.user.cartId}}', '{{this.token}}')">Add to cart 🛒</button>
           </section>
         </article>
       {{/each}}

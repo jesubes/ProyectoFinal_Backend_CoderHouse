@@ -56,3 +56,4 @@ fatal: Error: Parse error on line 19:
 ...{{this.id}}', '{{uid}}}', '{{email}}')">
 -----------------------^
 Expecting 'CLOSE', 'OPEN_SEXPR', 'ID', 'STRING', 'NUMBER', 'BOOLEAN', 'UNDEFINED', 'NULL', 'DATA', got 'CLOSE_UNESCAPED'
+fatal: JsonWebTokenError: jwt must be provided
