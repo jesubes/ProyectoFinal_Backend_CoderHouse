@@ -46,7 +46,6 @@ export const products = async (req, res, next) => {
 
     payload.forEach((element) => {
       element.user = user;
-      element.token = token;
     });
 
     if (hasNextPage)

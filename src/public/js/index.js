@@ -20,19 +20,17 @@ async function logout() {
 
 
 
-async function addToCart( id , cartId, token ) {
+async function addToCart( id , cartId) {
 
-  console.log('token---', token)
   const options = {
     method: "POST",
     body: "",
     headers: {
       "Content-Type": "application/json",
-
     },
   };
   await fetch(
-    `https://proyectofinalbackendcoderhouse-production-3d03.up.railway.app/api/carts/${cartId}/products/${id}`,
+    `${process.env.ENVIORMENT}/api/carts/${cartId}/products/${id}`,
     options
   );
   Swal.fire({
