@@ -30,7 +30,7 @@ async function addToCart( id , cartId) {
     },
   };
   await fetch(
-    `${process.env.ENVIORMENT}/api/carts/${cartId}/products/${id}`,
+    `${ENVIORMENT}/api/carts/${cartId}/products/${id}`,
     options
   );
   Swal.fire({
