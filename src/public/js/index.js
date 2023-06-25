@@ -2,7 +2,7 @@ const productsContainer = document.querySelector(".productsContainer");
 
 
 
-async function logout() {
+async function logout(url) {
   const options = {
     method: "POST",
     body: "",
@@ -11,11 +11,11 @@ async function logout() {
     },
   };
   const response = await fetch(
-    `http://localhost:8080/api/session/logout`,
+    `${url}/api/session/logout`,
     options
   );
   const res = await response.json();
-  location.assign("/products");
+  location.assign("/");
 }
 
 
@@ -46,7 +46,7 @@ async function addToCart( id , cartId, url) {
 
 
 
-async function deleteUser( id ){
+async function deleteUser( id, url ){
   const options= {
     method: "DELETE",
     body: "",
@@ -66,7 +66,7 @@ async function deleteUser( id ){
   }).then((result) => {
     if (result.isConfirmed) {
       console.log('ID---',id)
-      fetch( `http://localhost:8080/api/users/${id}`, options );
+      fetch( `${url}/api/users/${id}`, options );
 
       Swal.fire(
         'Eliminado!',
@@ -79,14 +79,8 @@ async function deleteUser( id ){
 
 
 
-async function updateRole ( id ){
-  const options = {
-    method: "PUT",
-    body: "",
-    headers: {
-      "Content-type": "application/json",
-    },
-  };
+async function updateRole ( id , url ){
+
 
   //SWEETALERT
   const inputOptions = new Promise((resolve) => {
@@ -114,14 +108,21 @@ async function updateRole ( id ){
   
   if (role) {
     Swal.fire({ html: `Seleccionaste:  ${role}` })
-    fetch( `http://localhost:8080/api/users/${id}`, options );
+    const options = {
+      method: "PUT",
+      body: `role: ${role}`,
+      headers: {
+        "Content-type": "application/json",
+      },
+    };
+    fetch( `${url}/api/users/${id}`, options );
   }
 
 }
 
 
 
-async function buyToCart(carId, uid, email) {
+async function buyToCart(carId, uid, email, url) {
   const options = {
     method: "POST",
     body: {
@@ -134,7 +135,7 @@ async function buyToCart(carId, uid, email) {
     },
   }
 
-  await fetch( `http://localhost:8080/api/tickets`, options);
+  await fetch( `${url}/api/tickets`, options);
 
   Swal.fire({
     toast: true,
@@ -142,7 +143,7 @@ async function buyToCart(carId, uid, email) {
     position: "center",
     html: "Compra Exitosa!",
     timer: 2000,
-    showConfirmButton: false,
+    showConfirmButton: true,
   });
 
 }

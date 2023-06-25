@@ -3,11 +3,12 @@ import  jwt  from "jsonwebtoken";
 import config from "../config/config.js";
 
 
+const urlFront = process.env.ENVIORMEN
+
 export const home = async (req, res, next) => {
   try {
     const isLogin = req.cookies["coderCookieToken"] ? true : false;
-
-    return res.render("home", {isLogin});
+    return res.render("home", {isLogin, urlFront});
   } catch (error) {
     next(error);
   }
@@ -45,18 +46,18 @@ export const products = async (req, res, next) => {
 
     payload.forEach((element) => {
       element.user = user;
-      element.urlFront = process.env.ENVIORMENT
+      element.urlFront = urlFront
     });
 
     if (hasNextPage)
-      nextLink = `${process.env.ENVIORMENT}/products/?${
+      nextLink = `${urlFront}/products/?${
         query ? "query=" + query + "&" : ""
       }${"limit=" + limit}${"&page=" + (+resPage + 1)}${
         sort ? "&sort=" + sort : ""
       }`;
 
     if (hasPrevPage)
-      prevLink = `${process.env.ENVIORMENT}/products/?${
+      prevLink = `${urlFront}/products/?${
         query ? "query=" + query + "&" : ""
       }${"limit=" + limit}${"&page=" + (+resPage - 1)}${
         sort ? "&sort=" + sort : ""
@@ -88,7 +89,7 @@ export const cart = async (req, res, next) => {
     const cart = await CartsService.getById(id);
     if (cart.error) return res.status(cart.error).send(cart);
 
-    return res.render("cart", {cart, email, uid,isLogin: true});
+    return res.render("cart", {cart, email, uid,isLogin: true, urlFront});
   } catch (error) {
     next(error);
   }
@@ -172,6 +173,7 @@ export const admin = async ( req, res, next ) => {
 
     const { payload } = await UsersService.getAll();
 
+    payload.forEach( element => element.urlFront = urlFront)
     let isAdmin = true;
     return res.render( "admin", { 
       isAdmin,

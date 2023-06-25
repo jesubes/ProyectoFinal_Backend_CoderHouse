@@ -57,3 +57,7 @@ fatal: Error: Parse error on line 19:
 -----------------------^
 Expecting 'CLOSE', 'OPEN_SEXPR', 'ID', 'STRING', 'NUMBER', 'BOOLEAN', 'UNDEFINED', 'NULL', 'DATA', got 'CLOSE_UNESCAPED'
 fatal: JsonWebTokenError: jwt must be provided
+fatal: JsonWebTokenError: jwt must be provided
+fatal: JsonWebTokenError: jwt must be provided
+fatal: JsonWebTokenError: jwt must be provided
+error: The server has failed unexpectedly - Error occurred at moment of delete the user: We are working to fix this issue - 25/6/2023 20:45:02
